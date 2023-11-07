@@ -1,0 +1,40 @@
+def recursive_bfs(graph, queue, visited, goal):
+    if not queue:
+        return None
+    node, path = queue.pop(0)
+    if node in visited:
+        return recursive_bfs(graph, queue, visited, goal)
+    if node == goal:
+        return path
+    visited.add(node)
+    for neighbor in graph[node]:
+        if neighbor not in visited:
+            queue.append((neighbor, path + [neighbor]))
+    return recursive_bfs(graph, queue, visited, goal)
+# Define the Romania map
+romania_map = {
+    'Arad': ['Zerind', 'Timisoara', 'Sibiu'],
+    'Zerind': ['Oradea', 'Arad'],
+    'Oradea': ['Zerind', 'Sibiu'],
+    'Timisoara': ['Arad', 'Lugoj'],
+    'Sibiu': ['Arad', 'Oradea', 'Fagaras', 'Rimnicu Vilcea'],
+    'Lugoj': ['Timisoara', 'Mehadia'],
+    'Fagaras': ['Sibiu', 'Bucharest'],
+    'Rimnicu Vilcea': ['Sibiu', 'Pitesti', 'Craiova'],
+    'Mehadia': ['Lugoj', 'Drobeta'],
+    'Bucharest': ['Fagaras', 'Pitesti', 'Giurgiu'],
+    'Pitesti': ['Rimnicu Vilcea', 'Craiova', 'Bucharest'],
+    'Craiova': ['Pitesti', 'Rimnicu Vilcea', 'Drobeta'],
+    'Drobeta': ['Mehadia', 'Craiova'],
+    'Giurgiu': ['Bucharest']
+}
+# Define the starting city and destination city
+start_city = 'Arad'
+destination_city = 'Bucharest'
+# Initialize the queue, visited set, and call recursive BFS function
+queue = [(start_city, [start_city])]
+visited = set()
+shortest_path = recursive_bfs(romania_map, queue, visited, destination_city)
+shortest_path = ' -> '.join(shortest_path)
+# Print the shortest path
+print('The shortest path from', start_city, 'to', destination_city, 'is:\n', shortest_path)

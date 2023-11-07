@@ -1,0 +1,38 @@
+def bfs(graph, start, goal):
+    queue = [(start, [start])]
+    visited = set()
+    while queue:
+        node, path = queue.pop(0)
+        if node in visited:
+            continue
+        if node == goal:
+            return path
+        visited.add(node)
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                queue.append((neighbor, path + [neighbor]))
+# Define the Romania map
+romania_map = {
+    'Arad': ['Zerind', 'Timisoara', 'Sibiu'],
+    'Zerind': ['Oradea', 'Arad'],
+    'Oradea': ['Zerind', 'Sibiu'],
+    'Timisoara': ['Arad', 'Lugoj'],
+    'Sibiu': ['Arad', 'Oradea', 'Fagaras', 'Rimnicu Vilcea'],
+    'Lugoj': ['Timisoara', 'Mehadia'],
+    'Fagaras': ['Sibiu', 'Bucharest'],
+    'Rimnicu Vilcea': ['Sibiu', 'Pitesti', 'Craiova'],
+    'Mehadia': ['Lugoj', 'Drobeta'],
+    'Bucharest': ['Fagaras', 'Pitesti', 'Giurgiu'],
+    'Pitesti': ['Rimnicu Vilcea', 'Craiova', 'Bucharest'],
+    'Craiova': ['Pitesti', 'Rimnicu Vilcea', 'Drobeta'],
+    'Drobeta': ['Mehadia', 'Craiova'],
+    'Giurgiu': ['Bucharest']
+}
+# Define the starting city and destination city
+start_city = 'Arad'
+destination_city = 'Bucharest'
+# Find the shortest path using BFS
+shortest_path = bfs(romania_map, start_city, destination_city)
+shortest_path = ' -> '.join(shortest_path) # type: ignore
+# Print the shortest path
+print('The shortest path from', start_city, 'to', destination_city, 'is:\n', shortest_path)

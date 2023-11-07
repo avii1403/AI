@@ -1,0 +1,46 @@
+def dfs(graph, start, goal, max_depth):
+    stack = [(start, [start])]
+    visited = set()
+    while stack:
+        node, path = stack.pop()
+        if node in visited:
+            continue
+        if node == goal:
+            return path
+        visited.add(node)
+        if len(path) < max_depth:
+            for neighbor in reversed(graph[node]):
+                if neighbor not in visited:
+                stack.append((neighbor, path + [neighbor]))
+def iddfs(graph, start, goal):
+    max_depth = 0
+    while True:
+        result = dfs(graph, start, goal, max_depth)
+        print(result, max_depth)
+        if result is not None:
+            return result
+        max_depth += 1
+# Define the Romania map (same as before)
+romania_map = {
+    'Arad': ['Zerind', 'Timisoara', 'Sibiu'],
+    'Zerind': ['Oradea', 'Arad'],
+    'Oradea': ['Zerind', 'Sibiu'],
+    'Timisoara': ['Arad', 'Lugoj'],
+    'Sibiu': ['Arad', 'Oradea', 'Fagaras', 'Rimnicu Vilcea'],
+    'Lugoj': ['Timisoara', 'Mehadia'],
+    'Fagaras': ['Sibiu', 'Bucharest'],
+    'Rimnicu Vilcea': ['Sibiu', 'Pitesti', 'Craiova'],
+    'Mehadia': ['Lugoj', 'Drobeta'],
+    'Bucharest': ['Fagaras', 'Pitesti', 'Giurgiu'],
+    'Pitesti': ['Rimnicu Vilcea', 'Craiova', 'Bucharest'],
+    'Craiova': ['Pitesti', 'Rimnicu Vilcea', 'Drobeta'],
+    'Drobeta': ['Mehadia', 'Craiova'],
+    'Giurgiu': ['Bucharest']
+}
+# Define the starting city and destination city
+start_city = 'Arad'
+destination_city = 'Bucharest'
+# Find the path using IDDFS
+path = iddfs(romania_map, start_city, destination_city)
+# Print the path
+print('The path from' , start_city , 'to' , destination_city , 'is:', path)

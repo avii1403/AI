@@ -1,0 +1,37 @@
+def dfs(graph, start, goal):
+    stack = [(start, [start])]
+    visited = set()
+    while stack:
+        node, path = stack.pop()
+        if node in visited:
+            continue
+        if node == goal:
+            return path
+        visited.add(node)
+        for neighbor in reversed(graph[node]):
+            if neighbor not in visited:
+                stack.append((neighbor, path + [neighbor]))
+# Define the Romania map (same as before)
+romania_map = {
+    'Arad': ['Zerind', 'Timisoara', 'Sibiu'],
+    'Zerind': ['Oradea', 'Arad'],
+    'Oradea': ['Zerind', 'Sibiu'],
+    'Timisoara': ['Arad', 'Lugoj'],
+    'Sibiu': ['Arad', 'Oradea', 'Fagaras', 'Rimnicu Vilcea'],
+    'Lugoj': ['Timisoara', 'Mehadia'],
+    'Fagaras': ['Sibiu', 'Bucharest'],
+    'Rimnicu Vilcea': ['Sibiu', 'Pitesti', 'Craiova'],
+    'Mehadia': ['Lugoj', 'Drobeta'],
+    'Bucharest': ['Fagaras', 'Pitesti', 'Giurgiu'],
+    'Pitesti': ['Rimnicu Vilcea', 'Craiova', 'Bucharest'],
+    'Craiova': ['Pitesti', 'Rimnicu Vilcea', 'Drobeta'],
+    'Drobeta': ['Mehadia', 'Craiova'],
+    'Giurgiu': ['Bucharest']
+}
+# Define the starting city and destination city
+start_city = 'Arad'
+destination_city = 'Timisoara'
+# Find the path using DFS
+path = dfs(romania_map, start_city, destination_city)
+# Print the path
+print('The path from' , start_city , 'to' , destination_city , 'is:', path)
